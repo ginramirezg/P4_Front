@@ -26,7 +26,8 @@ export default function LikeButton(
       setIsLoading(true);
       setError("");
 
-      await axios.delete(`${API_BASE_URL}/api/posts/${postId}/like`, {
+      //Usamos POST en vez de DELETE para dar like
+      await axios.post(`${API_BASE_URL}/api/posts/${postId}/like`, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -40,6 +41,7 @@ export default function LikeButton(
           globalThis.window.location.reload();
         }
       }, 3000);
+      location.reload(); //Recarga inmediatamente para actualizar la UI
     } catch (err) {
       console.error("Error al dar like:", err);
       setError("No se pudo dar like al post");

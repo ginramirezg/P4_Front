@@ -1,15 +1,16 @@
 import Comment from "./comments.ts";
 
+//Cambiados los nombres de los atributos para que coincidan con los datos que se reciben de la API
 interface Post {
   _id: string;
-  titulo: string;
-  contenido: string;
-  autor: string;
-  portada: string;
+  title: string;
+  content: string;
+  author: string;
+  cover: string;
   likes: number;
-  created_at: Date;
+  created_at: Date; 
   updated_at: Date;
-  comentarios: Comment[];
+  comments: Comment[];
 }
 
 export default Post;

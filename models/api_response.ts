@@ -30,7 +30,7 @@ type ApiResponse<T> =
   | ApiResponseSingleSuccess<T>;
 
 interface Metadata<T> {
-  posts: T;
+  posts: T[]; //Debe ser un array de T, ya que la API devuelve un array de posts
   total: number;
   page: number;
   limit: number;

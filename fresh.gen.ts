@@ -9,6 +9,7 @@ import * as $create_index from "./routes/create/index.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $post_id_ from "./routes/post/[id].tsx";
 import * as $search_index from "./routes/search/index.tsx";
+import * as $CancelButton from "./islands/CancelButton.tsx";
 import * as $LikeButton from "./islands/LikeButton.tsx";
 import * as $MainView from "./islands/MainView.tsx";
 import * as $PostCover from "./islands/PostCover.tsx";
@@ -25,6 +26,7 @@ const manifest = {
     "./routes/search/index.tsx": $search_index,
   },
   islands: {
+    "./islands/CancelButton.tsx": $CancelButton,
     "./islands/LikeButton.tsx": $LikeButton,
     "./islands/MainView.tsx": $MainView,
     "./islands/PostCover.tsx": $PostCover,

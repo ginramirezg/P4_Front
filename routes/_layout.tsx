@@ -19,9 +19,10 @@ export default function Layout({ Component }: PageProps) {
             <a href="#">El Blog de {OWNER}</a>
           </div>
           <nav className="nav">
-            <a href="#" className="nav-link">Inicio</a>
-            <a href="#" className="nav-link">Buscar</a>
-            <a href="#" className="nav-link">Crear</a>
+            {/*Agregar correctamente los enlaces de navegación*/}
+            <a href="/" className="nav-link">Inicio</a>
+            <a href="/search" className="nav-link">Buscar</a>
+            <a href="/create" className="nav-link">Crear</a>
           </nav>
         </div>
       </header>

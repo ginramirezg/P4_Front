@@ -1,10 +1,8 @@
 import { Handlers } from "$fresh/server.ts";
 import axios, { AxiosError } from "axios";
-import { API_BASE_URL } from "../../utils/config.ts";
-import {
-  hasValidationErrors,
-  isApiResponseError,
-} from "../../models/api_response.ts";
+import { API_BASE_URL } from "../utils/config.ts";
+import { hasValidationErrors, isApiResponseError } from "../models/api_response.ts";
+import CancelButton from "./CancelButton.tsx"; // Se importa la island
 
 interface FormDataError {
   title?: string;
@@ -38,15 +36,12 @@ export const handler: Handlers = {
       // Si se crea correctamente, se redirige a la página principal "/"
       const headers = new Headers();
       headers.set("location", "/");
-      return new Response("Post creado correctamente", {
-        headers,
-        status: 302,
-      });
+      return new Response(null, { headers, status: 302 });
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.error("Error al crear el post:", error.response?.data); // Se muestra el error real en consola
+      if (error instanceof AxiosError) { //Se usa `instanceof` para asegurar que es un error de Axios
+        console.error("Error al crear el post:", error.response?.data);
+        const body = error.response?.data;
 
-        const body = await error.response?.data;
         if (isApiResponseError(body)) {
           const errors: FormDataError = {};
           if (hasValidationErrors(body.error)) {
@@ -58,10 +53,7 @@ export const handler: Handlers = {
             return ctx.render({ errors });
           }
         }
-      } else {
-        console.error("Error al crear el post:", error);
       }
-      // Si ocurre un error, se renderiza el formulario con los errores
 
       return ctx.render({
         errors: {
@@ -96,9 +88,7 @@ export default function Create({ data }: PageProps) {
       {/* Se asegura que los inputs envían el formato correcto a la API */}
       <form className="post-form" action="/create" method="POST">
         <div className="form-group">
-          <label htmlFor="title" className="form-label">
-            Title
-          </label>
+          <label htmlFor="title" className="form-label">Title</label>
           <input
             type="text"
             id="title"
@@ -111,9 +101,7 @@ export default function Create({ data }: PageProps) {
         </div>
 
         <div className="form-group">
-          <label htmlFor="content" className="form-label">
-            Content
-          </label>
+          <label htmlFor="content" className="form-label">Content</label>
           <textarea
             id="content"
             name="content"
@@ -126,9 +114,7 @@ export default function Create({ data }: PageProps) {
         </div>
 
         <div className="form-group">
-          <label htmlFor="author" className="form-label">
-            Author
-          </label>
+          <label htmlFor="author" className="form-label">Author</label>
           <input
             type="text"
             id="author"
@@ -140,9 +126,7 @@ export default function Create({ data }: PageProps) {
         </div>
 
         <div className="form-group">
-          <label htmlFor="cover" className="form-label">
-            Cover Image URL
-          </label>
+          <label htmlFor="cover" className="form-label">Cover Image URL</label>
           <input
             type="url"
             id="cover"
@@ -154,17 +138,8 @@ export default function Create({ data }: PageProps) {
         </div>
 
         <div className="form-actions">
-          <button type="submit" className="submit-button">
-            Publish Post
-          </button>
-          {/* Botón "Cancel" para redirigir a "/" */}
-          <button
-            type="button"
-            className="cancel-button"
-            onClick={() => (location.href = "/")}
-          >
-            Cancel
-          </button>
+          <button type="submit" className="submit-button">Publish Post</button>
+          <CancelButton data={{ errors: {} }} /> {/*Se usa la island en lugar del botón original */}
         </div>
       </form>
     </div>
